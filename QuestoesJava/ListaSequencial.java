@@ -413,7 +413,7 @@ class Lista{
     }
 
     public void inserir(Personagem personagem, int pos){
-        if(tamanho >= lista.length || personagem == null || pos > tamanho){
+        if(tamanho >= lista.length || personagem == null || pos > tamanho || pos < 0){
             try{
                 if(personagem == null){
                     throw new Exception("Valor nulo");
@@ -466,6 +466,31 @@ class Lista{
 
         return personagem;
     }
+
+    public Personagem remover(int pos){
+        Personagem personagem = null;
+        if(tamanho == 0 || pos >= tamanho || pos < 0){
+            try{
+                if(pos >= tamanho || pos < 0){
+                    throw new Exception("ERRO, posicao invalida");
+                }else{
+                    throw new Exception("ERRO, lista vazia!!");
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            personagem = lista[pos];
+            for(int i = pos; i < tamanho; i++){
+                lista[i] = lista[i+1];
+            }
+            tamanho--;
+        }
+
+        return personagem;
+    }
+
+    
 
     public void mostra(){
         for(int i = 0; i < tamanho; i++){
@@ -579,11 +604,7 @@ public class ListaSequencial {
         list.mostra();
         System.out.println();
 
-        list.removerInicio();
-        list.mostra();
-        System.out.println();
-
-        list.removerFim();
+        list.remover(1);
         list.mostra();
         System.out.println();
 
