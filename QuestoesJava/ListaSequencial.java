@@ -417,8 +417,10 @@ class Lista{
             try{
                 if(personagem == null){
                     throw new Exception("Valor nulo");
-                }else{
+                }else if(tamanho >= lista.length){
                     throw new Exception("ERRO, lista cheia!!");
+                }else{
+                    throw new Exception("ERRO, posicao invalida");
                 }
             }catch(Exception e){
                 e.printStackTrace();
@@ -490,8 +492,6 @@ class Lista{
         return personagem;
     }
 
-    
-
     public void mostra(){
         for(int i = 0; i < tamanho; i++){
                 lista[i].imprime();
@@ -501,13 +501,59 @@ class Lista{
 
 public class ListaSequencial {
 
-    public static void getObjeto(String id, Personagem personagem[]) {
+    public static int getEndOfNumber(String entrada){
+        int i;
+
+        for(i = 3; i < entrada.length() && entrada.charAt(i) != ' ' && entrada.charAt(i) != '\0'; i++);
+        
+        return i;
+    }
+
+    public static String getId(String entrada){
+        String id;
+        if(Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada))) > 99){
+            id = entrada.substring(7);
+        }else if(Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada))) > 9){
+            id = entrada.substring(6);
+        }else{
+            id = entrada.substring(5);
+        }
+
+        return id;
+    }
+
+    public static int getOperacao(String entrada){
+        int resp;
+        if(entrada.charAt(0) == 'I'){
+            if(entrada.charAt(1) == 'I'){
+                resp = 0;
+            }else if(entrada.charAt(1) == 'F'){
+                resp = 1;
+            }else{
+                resp = 2;
+            }
+        }else{
+            if(entrada.charAt(1) == 'I'){
+                resp = 3;
+            }else if(entrada.charAt(1) == 'F'){
+                resp = 4;
+            }else{
+                resp = 5;
+            }
+        }
+
+        return resp;
+    }
+
+    public static Personagem getPersonagem(String id, Personagem personagem[]) {
+        Personagem tmp = null;
         for (int i = 0; i < personagem.length; i++) {
             if (personagem[i].getId().equals(id)) {
-                personagem[i].imprime();
+                tmp = personagem[i];
                 i = personagem.length;
             }
         }
+        return tmp;
     }
 
     public static Boolean isFim(String frase) {
@@ -584,30 +630,49 @@ public class ListaSequencial {
         }
 
         Scanner Sc = new Scanner(System.in);
-
-        
         Lista list = new Lista();
 
+        String id = Sc.nextLine();
 
-        
+        while(isFim(id)){
+            Personagem personagemAtual = getPersonagem(id, personagem);
+            if(personagemAtual != null){
+                list.inserirFim(personagemAtual);
+            }
+            id = Sc.nextLine();
+        }
 
-        list.inserirInicio(personagem[0]);
-       // list.mostra();
-        //System.out.println();
-        list.inserirFim(personagem[4]);
-        //list.mostra();
-        //System.out.println();
-        list.inserirInicio(personagem[2]);
-        //list.mostra();
-       // System.out.println();
-        list.inserir(personagem[1], 3);
+        int numEntradas = Sc.nextInt();
+        Sc.nextLine();
+
+        for(int i = 0; i < numEntradas; i++){
+            String entrada = Sc.nextLine();   
+
+        switch (getOperacao(entrada)) {
+                case 0:
+                    list.inserirInicio(getPersonagem(entrada.substring(3), personagem));
+                    break;
+                case 1:
+                list.inserirFim(getPersonagem(entrada.substring(3), personagem));
+                    break;
+                case 2:
+                list.inserir(getPersonagem(getId(entrada), personagem), Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada))));    
+                    break;
+                case 3:
+                System.out.println(list.removerInicio().getName());  
+                    break;
+                case 4:
+                System.out.println(list.removerFim().getName());  
+                    break;
+                case 5:
+                System.out.println(list.remover(Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada)))).getName());   
+                    break;
+            }
+        }
+
         list.mostra();
-        System.out.println();
 
-        list.remover(1);
-        list.mostra();
-        System.out.println();
-
+        Sc.close();
     }
 }
 
