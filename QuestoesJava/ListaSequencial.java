@@ -1,4 +1,4 @@
-package QuestoesJava;
+//package QuestoesJava;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -327,7 +327,7 @@ class Personagem {
 
     public void imprime() {
 
-        System.out.print("[" + id + " ## " + name + " ## ");
+        System.out.print( id + " ## " + name + " ## ");
         alternate_names.mostra();
         System.out.print(house + " ## " + ancestry + " ## " + species + " ## " + patronus + " ## ");
         System.out.print(hogwartsStaff + " ## ");
@@ -336,7 +336,7 @@ class Personagem {
         dateOfBirth.mostra();
         System.out.print(yearOfBirth + " ## ");
         System.out.print(eyeColour + " ## " + gender + " ## " + hairColour + " ## ");
-        System.out.println(wizard + "]");
+        System.out.print(wizard);
 
     }
 
@@ -494,8 +494,11 @@ class Lista{
 
     public void mostra(){
         for(int i = 0; i < tamanho; i++){
-                lista[i].imprime();
+            System.out.print("[" + i + " ## ");
+            lista[i].imprime();
+            System.out.println("]" );
         }
+
     }
 }
 
@@ -602,7 +605,7 @@ public class ListaSequencial {
         Personagem personagem[] = new Personagem[404];
 
         try {
-            File myObj = new File("C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv");
+            File myObj = new File("/tmp/characters.csv");
             Scanner Sc = new Scanner(myObj);
             Sc.nextLine();
 
@@ -659,13 +662,13 @@ public class ListaSequencial {
                 list.inserir(getPersonagem(getId(entrada), personagem), Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada))));    
                     break;
                 case 3:
-                System.out.println(list.removerInicio().getName());  
+                System.out.println("(R) " + list.removerInicio().getName());  
                     break;
                 case 4:
-                System.out.println(list.removerFim().getName());  
+                System.out.println("(R) " + list.removerFim().getName());  
                     break;
                 case 5:
-                System.out.println(list.remover(Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada)))).getName());   
+                System.out.println("(R) " + list.remover(Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada)))).getName());   
                     break;
             }
         }
@@ -676,3 +679,6 @@ public class ListaSequencial {
     }
 }
 
+
+
+//C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv
