@@ -451,6 +451,22 @@ class Lista{
         return personagem;
     }
 
+    public Personagem removerFim(){
+        Personagem personagem = null;
+        if(tamanho == 0){
+            try{
+                throw new Exception("ERRO, lista vazia!!");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            personagem = lista[tamanho-1];
+            tamanho--;
+        }
+
+        return personagem;
+    }
+
     public void mostra(){
         for(int i = 0; i < tamanho; i++){
                 lista[i].imprime();
@@ -564,6 +580,10 @@ public class ListaSequencial {
         System.out.println();
 
         list.removerInicio();
+        list.mostra();
+        System.out.println();
+
+        list.removerFim();
         list.mostra();
         System.out.println();
 
