@@ -412,6 +412,45 @@ class Lista{
         }
     }
 
+    public void inserir(Personagem personagem, int pos){
+        if(tamanho >= lista.length || personagem == null || pos > tamanho){
+            try{
+                if(personagem == null){
+                    throw new Exception("Valor nulo");
+                }else{
+                    throw new Exception("ERRO, lista cheia!!");
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            for(int i = tamanho; i > pos; i--){
+                lista[i] = lista[i-1];
+            }
+            lista[pos] = personagem;
+            tamanho++;
+        }
+    }
+
+    public Personagem removerInicio(){
+        Personagem personagem = null;
+        if(tamanho == 0 ){
+            try{
+                throw new Exception("ERRO, lista vazia!!");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            personagem = lista[0];
+            for(int i = 0; i < tamanho; i++){
+                lista[i] = lista[i+1];
+            }
+            tamanho--;
+        }
+
+        return personagem;
+    }
+
     public void mostra(){
         for(int i = 0; i < tamanho; i++){
                 lista[i].imprime();
@@ -512,15 +551,22 @@ public class ListaSequencial {
         
 
         list.inserirInicio(personagem[0]);
-        list.mostra();
-        System.out.println();
+       // list.mostra();
+        //System.out.println();
         list.inserirFim(personagem[4]);
-        list.mostra();
-        System.out.println();
+        //list.mostra();
+        //System.out.println();
         list.inserirInicio(personagem[2]);
+        //list.mostra();
+       // System.out.println();
+        list.inserir(personagem[1], 3);
         list.mostra();
         System.out.println();
-        
+
+        list.removerInicio();
+        list.mostra();
+        System.out.println();
+
     }
 }
 
