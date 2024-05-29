@@ -388,7 +388,26 @@ class Lista{
             }
         }else{
             lista[tamanho] = personagem;
-            System.out.println("Inserçao feita com sucesso\n");
+            tamanho++;
+        }
+    }
+
+    public void inserirInicio(Personagem personagem){
+        if(tamanho >= lista.length || personagem == null){
+            try{
+                if(personagem == null){
+                    throw new Exception("Valor nulo");
+                }else{
+                    throw new Exception("ERRO, lista cheia!!");
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            for(int i = tamanho; i > 0; i--){
+                lista[i] = lista[i-1];
+            }
+            lista[0] = personagem;
             tamanho++;
         }
     }
@@ -492,10 +511,15 @@ public class ListaSequencial {
 
         
 
-        for(int i = 0; i < 404 && personagem[i] != null; i++){
-            list.inserirFim(personagem[i]);
-        }
+        list.inserirInicio(personagem[0]);
         list.mostra();
+        System.out.println();
+        list.inserirFim(personagem[4]);
+        list.mostra();
+        System.out.println();
+        list.inserirInicio(personagem[2]);
+        list.mostra();
+        System.out.println();
         
     }
 }
