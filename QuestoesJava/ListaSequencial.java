@@ -497,7 +497,6 @@ public class ListaSequencial {
         }
         list.mostra();
         
-
     }
 }
 
