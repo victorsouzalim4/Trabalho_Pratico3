@@ -1,4 +1,4 @@
-package Questao3;
+package Questao5;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -366,61 +366,47 @@ class Personagem {
     }
 }
 
-class Pilha{
-    private int tamanho;
-    private Personagem[] pilha;
+class Celula{
+    public Personagem personagem;
+    public Celula prox;
 
-    Pilha(){
-        this.tamanho = 0;
-        this.pilha = new Personagem[404];
+    public Celula(){
+        this.personagem = null;
+        this.prox = null;
     }
 
-    public void inserirFim(Personagem personagem){
-        if(tamanho >= pilha.length || personagem == null){
-            try{
-                if(personagem == null){
-                    throw new Exception("Valor nulo");
-                }else{
-                    throw new Exception("ERRO, pilha cheia!!");
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }else{
-            pilha[tamanho] = personagem;
-            tamanho++;
-        }
-    }
-
-
-    public Personagem removerFim(){
-        Personagem personagem = null;
-        if(tamanho == 0){
-            try{
-                throw new Exception("ERRO, pilha vazia!!");
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }else{
-            personagem = pilha[tamanho-1];
-            tamanho--;
-        }
-
-        return personagem;
-    }
-
-    public void mostra(){
-        System.out.println(" [ Top ]");
-        for(int i = tamanho-1; i >= 0; i--){
-            System.out.print("[" + (tamanho-1-i) + " ## ");
-            pilha[i].imprime();
-            System.out.println("]" );
-        }
-        System.out.println(" [ Bottom ]");
+    public Celula(Personagem personagem){
+        this.personagem = personagem;
+        this.prox = null;
     }
 }
 
-public class PilhaSequencial{
+class Lista{
+    private Celula primeiro, ultimo;
+    private int tamanho;
+
+    Lista(){
+        primeiro = ultimo = new Celula();
+        tamanho = 0;
+    }
+
+    public void inserirFim(Personagem personagem){
+
+        Celula tmp = new Celula(personagem);
+        ultimo.prox = tmp;
+        ultimo = tmp;
+        tmp = null;
+    }
+
+    public void mostra(){
+        for(Celula i = primeiro.prox; i != null; i = i.prox){
+            i.personagem.imprime();
+        }
+    }
+
+}
+
+public class ListaFlexivel {
 
     public static int getEndOfNumber(String entrada){
         int i;
@@ -446,9 +432,21 @@ public class PilhaSequencial{
     public static int getOperacao(String entrada){
         int resp;
         if(entrada.charAt(0) == 'I'){
-            resp = 0;
+            if(entrada.charAt(1) == 'I'){
+                resp = 0;
+            }else if(entrada.charAt(1) == 'F'){
+                resp = 1;
+            }else{
+                resp = 2;
+            }
         }else{
-            resp = 1;
+            if(entrada.charAt(1) == 'I'){
+                resp = 3;
+            }else if(entrada.charAt(1) == 'F'){
+                resp = 4;
+            }else{
+                resp = 5;
+            }
         }
 
         return resp;
@@ -511,7 +509,7 @@ public class PilhaSequencial{
         Personagem personagem[] = new Personagem[404];
 
         try {
-            File myObj = new File("/tmp/characters.csv");
+            File myObj = new File("C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv");
             Scanner Sc = new Scanner(myObj);
             Sc.nextLine();
 
@@ -539,14 +537,25 @@ public class PilhaSequencial{
         }
 
         Scanner Sc = new Scanner(System.in);
-        Pilha stack = new Pilha();
+        Lista list = new Lista();
+        list.inserirFim(personagem[0]);
+        list.inserirFim(personagem[1]);
+        list.inserirFim(personagem[2]);
+        list.mostra();
 
-        String id = Sc.nextLine();
+
+
+
+
+
+
+
+        /*String id = Sc.nextLine();
 
         while(isFim(id)){
             Personagem personagemAtual = getPersonagem(id, personagem);
             if(personagemAtual != null){
-                stack.inserirFim(personagemAtual);
+                list.inserirFim(personagemAtual);
             }
             id = Sc.nextLine();
         }
@@ -559,15 +568,27 @@ public class PilhaSequencial{
 
             switch (getOperacao(entrada)) {
                 case 0:
-                stack.inserirFim(getPersonagem(entrada.substring(2), personagem));
+                    list.inserirInicio(getPersonagem(entrada.substring(3), personagem));
                     break;
                 case 1:
-                System.out.println("(R) " + stack.removerFim().getName());  
+                list.inserirFim(getPersonagem(entrada.substring(3), personagem));
+                    break;
+                case 2:
+                list.inserir(getPersonagem(getId(entrada), personagem), Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada))));    
+                    break;
+                case 3:
+                System.out.println("(R) " + list.removerInicio().getName());  
+                    break;
+                case 4:
+                System.out.println("(R) " + list.removerFim().getName());  
+                    break;
+                case 5:
+                System.out.println("(R) " + list.remover(Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada)))).getName());   
                     break;
             }
         }
 
-        stack.mostra();
+        list.mostra(); */
 
         Sc.close();
     }
