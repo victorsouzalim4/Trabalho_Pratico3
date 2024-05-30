@@ -139,6 +139,22 @@ void inserirFim(Lista *list, Personagem personagem){
     }
 }
 
+void inserir(Lista *list, Personagem personagem, int pos){
+    if(list->tamanho >= 404 || pos > list->tamanho || pos < 0){
+        if(pos > list->tamanho || pos < 0){
+            printf("Posicao invalida!!\n");
+        }else{
+            printf("ERRO, lista cheia!!\n");
+        }
+    }else{
+        for(int i = list->tamanho; i > pos; i--){
+            list->lista[i] = list->lista[i-1];
+        }
+        list->lista[pos] = personagem;
+        list->tamanho++;
+    }
+}
+
 
 void recebeAtributos(char atributos[18][1000], char* linha){
         for (int i = 0; i < 18; i++) {
@@ -578,7 +594,6 @@ int main(){
         inserirFim(list, personagens[i]);
     }
 
-    mostraLista(list);
 
 
 }
