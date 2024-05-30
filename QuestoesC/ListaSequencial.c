@@ -158,7 +158,7 @@ void inserir(Lista *list, Personagem personagem, int pos){
 Personagem removerInicio(Lista *list){
     Personagem tmp;
     if(list->tamanho <= 0){
-            printf("ERRO, lista vazia!!\n");
+        printf("ERRO, lista vazia!!\n");
     }else{
         tmp = list->lista[0];
         for(int i = 0; i < list->tamanho; i++){
@@ -169,6 +169,19 @@ Personagem removerInicio(Lista *list){
 
     return tmp;
 }
+
+Personagem removerFim(Lista *list){
+    Personagem tmp;
+    if(list->tamanho <= 0){
+        printf("ERRO, lista vazia!!\n");
+    }else{
+        tmp = list->lista[list->tamanho -1];
+        list->tamanho--;
+    }
+
+    return tmp;
+}
+
 
 void imprime(Personagem personagem){
     printf("[%s ## ", personagem.id);
@@ -671,16 +684,9 @@ int main(){
     mostraLista(list);
     printf("\n\n");
     
-    Personagem tmp = removerInicio(list);
-    imprime(tmp);
-    printf("\n\n");
+    removerFim(list);
     mostraLista(list);
-
-
-
-
-
-
+    printf("\n\n");
 
 }
 
