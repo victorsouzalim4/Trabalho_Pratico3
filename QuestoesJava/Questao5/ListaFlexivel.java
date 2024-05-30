@@ -1,5 +1,6 @@
 package Questao5;
 import java.util.Scanner;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -430,6 +431,31 @@ class Lista{
         }
     }
 
+    public Personagem removerFim(){
+
+        Personagem tmp = null;
+
+        if(tamanho <= 0){
+            try{
+                throw new Exception("Lista vazia");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            tmp = ultimo.personagem;
+
+            Celula i;
+            for(i = primeiro; i.prox != ultimo; i = i.prox);
+    
+            ultimo = i;
+            i.prox = i = null;
+            tamanho--;
+        }
+        return tmp;
+   
+    
+    }
+
     public void mostra(){
         for(Celula i = primeiro.prox; i != null; i = i.prox){
             i.personagem.imprime();
@@ -577,6 +603,7 @@ public class ListaFlexivel {
         list.inserirInicio(personagem[3]);
         list.inserir(personagem[4], 2);
         list.mostra();
+
 
 
 
