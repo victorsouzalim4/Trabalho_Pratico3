@@ -118,7 +118,17 @@ void mostraLista(Lista *list){
     }
 }
 
-
+void inserirInicio(Lista *list, Personagem personagem){
+    if(list->tamanho >= 404){
+        printf("ERRO, lista cheia!!");
+    }else{
+        for(int i = list->tamanho; i > 0; i--){
+            list->lista[i] = list->lista[i-1];
+        }
+        list->lista[0] = personagem;
+        list->tamanho++;
+    }
+}
 
 
 void recebeAtributos(char atributos[18][1000], char* linha){
@@ -555,13 +565,10 @@ int main(){
 
     Lista* list = construtorLista();
 
-    list->lista[0] = personagens[0];
-    list->tamanho++;
-    list->lista[1] = personagens[1];
-    list->tamanho++;
-    list->lista[2] = personagens[5];
-    list->tamanho++;
-    //printf("%s", list->lista[0].name);
+    for(int i = 0; i < 404; i++){
+        inserirInicio(list, personagens[i]);
+    }
+
     mostraLista(list);
 
 
