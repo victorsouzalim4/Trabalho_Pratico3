@@ -155,6 +155,81 @@ void inserir(Lista *list, Personagem personagem, int pos){
     }
 }
 
+Personagem removerInicio(Lista *list){
+    Personagem tmp;
+    if(list->tamanho <= 0){
+            printf("ERRO, lista vazia!!\n");
+    }else{
+        tmp = list->lista[0];
+        for(int i = 0; i < list->tamanho; i++){
+            list->lista[i] = list->lista[i+1];
+        }
+        list->tamanho--;
+    }
+
+    return tmp;
+}
+
+void imprime(Personagem personagem){
+    printf("[%s ## ", personagem.id);
+       printf("%s ## ", personagem.name);
+
+        printf("{");
+       for(int i = 0; i < 10; i++){
+            int cont = 0;
+            if(personagem.alternate_names.apelidos[i][0] > 'A' && personagem.alternate_names.apelidos[i][0] < 'z'){
+                cont++;
+            }
+            if(cont != 0){
+                if(i != 0){
+                    printf(", %s", personagem.alternate_names.apelidos[i]);
+                }else{
+                    printf("%s", personagem.alternate_names.apelidos[i]);
+                }
+                 
+            }
+        }
+         printf("} ## ");
+    
+       printf("%s ## ", personagem.house);
+       printf("%s ## ", personagem.ancestry);
+       printf("%s ## ", personagem.species);
+       printf("%s ## ", personagem.patronus);
+        if(personagem.hogwartsStaff == true){
+          printf("true ## ");
+       }
+       else{
+          printf("false ## ");
+       }
+       if(personagem.hogwartsStudent == true){
+          printf("true ## ");
+       }
+       else{
+          printf("false ## ");
+       }
+       printf("%s ## ", personagem.actorName);
+       if(personagem.alive == true){
+          printf("true ## ");
+       }
+       else{
+          printf("false ## ");
+       }
+       printf("%s-", personagem.dateOfBirth.day);
+       printf("%s-", personagem.dateOfBirth.month);
+       printf("%s ## ", personagem.dateOfBirth.year);
+       printf("%d ## ", personagem.yearOfBirth);
+       printf("%s ## ", personagem.eyeColour);
+       printf("%s ## ", personagem.gender);
+       printf("%s ## ", personagem.hairColour);
+
+       if(personagem.wizard == true){
+          printf("true]\n");
+       }
+       else{
+          printf("false]\n");
+       }
+       
+}
 
 void recebeAtributos(char atributos[18][1000], char* linha){
         for (int i = 0; i < 18; i++) {
@@ -590,9 +665,20 @@ int main(){
 
     Lista* list = construtorLista();
 
-    for(int i = 0; i < 404; i++){
+    for(int i = 0; i < 3; i++){
         inserirFim(list, personagens[i]);
     }
+    mostraLista(list);
+    printf("\n\n");
+    
+    Personagem tmp = removerInicio(list);
+    imprime(tmp);
+    printf("\n\n");
+    mostraLista(list);
+
+
+
+
 
 
 
