@@ -1,4 +1,4 @@
-package Questao5;
+//package Questao6;
 import java.util.Scanner;
 import java.io.EOFException;
 import java.io.File;
@@ -382,11 +382,11 @@ class Celula{
     }
 }
 
-class Lista{
+class Pilha{
     private Celula primeiro, ultimo;
     private int tamanho;
 
-    Lista(){
+    Pilha(){
         primeiro = ultimo = new Celula();
         tamanho = 0;
     }
@@ -435,7 +435,7 @@ class Lista{
         Personagem tmp = null;
         if(tamanho <= 0){
             try{
-                throw new Exception("Lista vazia");
+                throw new Exception("Pilha vazia");
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -455,7 +455,7 @@ class Lista{
         Personagem personagem = null;
         if(tamanho <= 0){
             try{
-                throw new Exception("Lista vazia");
+                throw new Exception("Pilha vazia");
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -476,7 +476,7 @@ class Lista{
         if(pos >= tamanho || pos < 0){
             try{
                 if(tamanho == 0){
-                    throw new Exception("Lista vazia");
+                    throw new Exception("Pilha vazia");
                 }else{
                     throw new Exception("Posicao invalida");
                 }   
@@ -501,6 +501,8 @@ class Lista{
     }
 
     public void mostra(){
+        System.out.println("[ Top ]");
+
         int j = 0;
         for(Celula i = primeiro.prox; i != null; i = i.prox){
             System.out.print("[" + j + " ## ");
@@ -508,11 +510,13 @@ class Lista{
             System.out.println("]");
             j++;
         }
+
+        System.out.println("[ Bottom ]");
     }
 
 }
 
-public class ListaFlexivel {
+public class PilhaFlexivel{
 
     public static int getEndOfNumber(String entrada){
         int i;
@@ -538,21 +542,9 @@ public class ListaFlexivel {
     public static int getOperacao(String entrada){
         int resp;
         if(entrada.charAt(0) == 'I'){
-            if(entrada.charAt(1) == 'I'){
-                resp = 0;
-            }else if(entrada.charAt(1) == 'F'){
-                resp = 1;
-            }else{
-                resp = 2;
-            }
+            resp = 0;
         }else{
-            if(entrada.charAt(1) == 'I'){
-                resp = 3;
-            }else if(entrada.charAt(1) == 'F'){
-                resp = 4;
-            }else{
-                resp = 5;
-            }
+            resp = 1;
         }
 
         return resp;
@@ -643,14 +635,14 @@ public class ListaFlexivel {
         }
 
         Scanner Sc = new Scanner(System.in);
-        Lista list = new Lista();
+        Pilha stack = new Pilha();
 
         String id = Sc.nextLine();
 
         while(isFim(id)){
             Personagem personagemAtual = getPersonagem(id, personagem);
             if(personagemAtual != null){
-                list.inserirFim(personagemAtual);
+                stack.inserirInicio(personagemAtual);
             }
             id = Sc.nextLine();
         }
@@ -663,27 +655,15 @@ public class ListaFlexivel {
 
             switch (getOperacao(entrada)) {
                 case 0:
-                    list.inserirInicio(getPersonagem(entrada.substring(3), personagem));
+                stack.inserirInicio(getPersonagem(entrada.substring(2), personagem));
                     break;
                 case 1:
-                list.inserirFim(getPersonagem(entrada.substring(3), personagem));
-                    break;
-                case 2:
-                list.inserir(getPersonagem(getId(entrada), personagem), Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada))));    
-                    break;
-                case 3:
-                System.out.println("(R) " + list.removerInicio().getName());  
-                    break;
-                case 4:
-                System.out.println("(R) " + list.removerFim().getName());  
-                    break;
-                case 5:
-                System.out.println("(R) " + list.remover(Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada)))).getName());   
+                System.out.println("(R) " + stack.removerInicio().getName());  
                     break;
             }
         }
 
-        list.mostra(); 
+        stack.mostra(); 
 
         Sc.close();
     }
@@ -692,3 +672,4 @@ public class ListaFlexivel {
 
 
 //C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv
+///tmp/characters.csv

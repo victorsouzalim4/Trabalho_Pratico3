@@ -682,3 +682,4 @@ public class ListaSequencial {
 
 
 //C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv
+//tmp/characters.csv
