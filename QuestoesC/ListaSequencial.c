@@ -182,6 +182,25 @@ Personagem removerFim(Lista *list){
     return tmp;
 }
 
+Personagem remover(Lista *list, int pos){
+    Personagem tmp;
+    if(list->tamanho <= 0 || pos >= list->tamanho || pos < 0){
+        if(pos >= list->tamanho || pos < 0){
+            printf("Posicao invalida!!\n");
+        }else{
+            printf("ERRO, lista cheia!!\n");
+        }
+    }else{
+        tmp = list->lista[pos];
+        for(int i = pos; i < list->tamanho; i++){
+            list->lista[i] = list->lista[i+1];
+        }
+        list->tamanho--;
+    }
+    return tmp;
+}
+
+
 
 void imprime(Personagem personagem){
     printf("[%s ## ", personagem.id);
@@ -678,13 +697,13 @@ int main(){
 
     Lista* list = construtorLista();
 
-    for(int i = 0; i < 3; i++){
+    for(int i = 0; i < 5; i++){
         inserirFim(list, personagens[i]);
     }
     mostraLista(list);
     printf("\n\n");
     
-    removerFim(list);
+    remover(list, -1);
     mostraLista(list);
     printf("\n\n");
 
