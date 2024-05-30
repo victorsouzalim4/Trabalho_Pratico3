@@ -681,7 +681,41 @@ bool isFim(char str[]){
     return test;
 }
 
+int getOperacao(char* entrada){
+    int resp;
+
+    if(entrada[0] == 'I'){
+        if(entrada[1] == 'I'){
+            resp = 0;
+        }else if(entrada[1] == 'F'){
+            resp = 1;
+        }else{
+            resp = 2;
+        }
+    }else{
+        if(entrada[1] == 'I'){
+            resp = 3;
+        }else if(entrada[1] == 'F'){
+            resp = 4;
+        }else{
+            resp = 5;
+        }
+    }
+
+    return resp;
+}
  
+char* subString(int pos, char* entrada){
+    char* novaString = (char*) malloc((strlen(entrada) - pos)*sizeof(char));
+    int tam = strlen(entrada);
+
+    for(int i = 0; i < tam; i++){
+        novaString[i] = entrada[pos+i];
+    }
+
+    return novaString;
+}
+
 int main(){
 
     FILE *arq = fopen("C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv", "r");
@@ -734,7 +768,32 @@ int main(){
 
         scanf(" %99[^\n]%*c", entrada);
         entrada[strcspn(entrada, "\r")] = '\0';
+
+        switch(getOperacao(entrada)){
+            case 0:
+                inserirInicio(list, getPersonagem(personagens, subString(3, entrada)));
+                break;
+            case 1:
+                inserirFim(list, getPersonagem(personagens, subString(3, entrada)));
+                break;
+            case 2:
+                printf("entrei 2\n");                
+                break;                
+            case 3:
+                printf("(R) %s\n", removerInicio(list).name);               
+                break;
+            case 4:
+                printf("(R) %s\n", removerFim(list).name);                
+                break;
+            case 5:
+                printf("entrei 5\n");               
+                break;
+            default:
+                printf("entrada invalida");
+        }
     }
+
+    mostraLista(list);
 
 
 
