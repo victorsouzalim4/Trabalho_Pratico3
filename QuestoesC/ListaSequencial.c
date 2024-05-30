@@ -202,6 +202,10 @@ Personagem remover(Lista *list, int pos){
 
 
 
+
+
+
+
 void imprime(Personagem personagem){
     printf("[%s ## ", personagem.id);
        printf("%s ## ", personagem.name);
@@ -655,6 +659,18 @@ bool isIgual(char str[], char id[]){
     return test;
 }
 
+Personagem getPersonagem(Personagem personagens[], char* id){
+    Personagem personagemAtual;
+    for(int i = 0; i < 405; i++){
+        if(isIgual(personagens[i].id, id)){
+            personagemAtual = personagens[i];
+            i = 405;
+        }
+    }
+
+    return personagemAtual;
+}
+
 bool isFim(char str[]){
     bool test = true;
 
@@ -691,21 +707,36 @@ int main(){
         i++;
     }
   
-    char entrada[100];
-
-   
-
+    char id[100];
     Lista* list = construtorLista();
 
-    for(int i = 0; i < 5; i++){
-        inserirFim(list, personagens[i]);
-    }
-    mostraLista(list);
-    printf("\n\n");
+/*
+    scanf("%99[^\n]%*c", id);
+    id[strcspn(id, "\r")] = '\0';
     
-    remover(list, -1);
-    mostraLista(list);
-    printf("\n\n");
+
+    while(isFim(id)){
+        Personagem personagemAtual = getPersonagem(personagens, id);
+        if(personagemAtual.yearOfBirth !=  0){
+            inserirFim(list, personagemAtual);
+        }
+        scanf("%99[^\n]%*c", id);
+        id[strcspn(id, "\r")] = '\0';
+    }*/
+
+    //mostraLista(list);
+
+    int numEntradas;
+    scanf("%d", &numEntradas);
+
+    for(int i = 0; i < numEntradas; i++){
+        char entrada[100];
+
+        scanf(" %99[^\n]%*c", entrada);
+        entrada[strcspn(entrada, "\r")] = '\0';
+    }
+
+
 
 }
 
