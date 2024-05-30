@@ -471,6 +471,35 @@ class Lista{
         return personagem;
     }
 
+    public Personagem remover(int pos){
+        Personagem personagem = null;
+        if(pos >= tamanho || pos < 0){
+            try{
+                if(tamanho == 0){
+                    throw new Exception("Lista vazia");
+                }else{
+                    throw new Exception("Posicao invalida");
+                }   
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }else if(pos == 0) removerInicio();
+        else if(pos == tamanho - 1) removerFim();
+        else{
+            Celula i = primeiro;
+            for(int j = 0; j < pos; i = i.prox, j++);
+
+            Celula tmp = i.prox;
+            personagem = tmp.personagem;
+            i.prox = tmp.prox;
+            tmp = tmp.prox = i = null;
+
+            tamanho--;
+        }
+
+        return personagem;
+    }
+
     public void mostra(){
         for(Celula i = primeiro.prox; i != null; i = i.prox){
             i.personagem.imprime();
@@ -619,11 +648,10 @@ public class ListaFlexivel {
         list.inserir(personagem[4], 2);
         list.mostra();
 
-        System.out.println("\n");
-        list.removerInicio();
-        System.out.println("\n");
-        list.removerInicio();
+
         list.mostra();
+
+
 
 
 
