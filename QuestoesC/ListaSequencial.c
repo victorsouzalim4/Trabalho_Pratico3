@@ -705,20 +705,58 @@ int getOperacao(char* entrada){
     return resp;
 }
  
-char* subString(int pos, char* entrada){
-    char* novaString = (char*) malloc((strlen(entrada) - pos)*sizeof(char));
-    int tam = strlen(entrada);
+char* subString(int posInit, int posFinal, char* entrada) {
 
-    for(int i = 0; i < tam; i++){
-        novaString[i] = entrada[pos+i];
+    char* novaString = (char*) malloc((posFinal - posInit + 1) * sizeof(char));
+    
+    for (int i = 0; i < (posFinal - posInit); i++) {
+        novaString[i] = entrada[posInit + i];
     }
 
+    novaString[posFinal - posInit] = '\0';
+    
     return novaString;
+}
+
+int toInt(char* entrada){
+    int indicadorFim = 0;
+    int i = 0;
+
+    while(entrada[i] != '\0'){
+        indicadorFim++;
+        i++;
+    }
+
+    char novaString[indicadorFim];
+
+    for(int j = 0; j < indicadorFim; j++){
+        novaString[j] = entrada[indicadorFim-j-1];
+    }
+
+    int soma = 0;
+
+    for(int i = 0; i < indicadorFim; i++){
+        int asccivalue = novaString[i];
+        asccivalue -= 48;
+
+        soma+= asccivalue*(pow(10, i));
+    }
+
+    return soma;
+
+}
+
+int getEndOfNumber(char* entrada){
+    int i;
+
+    for(i = 3; i < strlen(entrada) && entrada[i] != ' '; i++);
+
+    return i;
 }
 
 int main(){
 
-    FILE *arq = fopen("C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv", "r");
+    FILE *arq = fopen("/tmp/characters.csv", "r");
     char linha[1000];
     char atributos[18][1000];
     char apelidos[10][150];
@@ -744,7 +782,7 @@ int main(){
     char id[100];
     Lista* list = construtorLista();
 
-/*
+
     scanf("%99[^\n]%*c", id);
     id[strcspn(id, "\r")] = '\0';
     
@@ -756,7 +794,7 @@ int main(){
         }
         scanf("%99[^\n]%*c", id);
         id[strcspn(id, "\r")] = '\0';
-    }*/
+    }
 
     //mostraLista(list);
 
@@ -769,15 +807,19 @@ int main(){
         scanf(" %99[^\n]%*c", entrada);
         entrada[strcspn(entrada, "\r")] = '\0';
 
+        //printf("%s\n",subString(3, strlen(entrada), entrada));
+        //printf("%s\n", subString(getEndOfNumber(entrada) + 1, strlen(entrada), entrada));
+        //printf("%d\n", toInt(subString(3, getEndOfNumber(entrada), entrada)));
+
         switch(getOperacao(entrada)){
             case 0:
-                inserirInicio(list, getPersonagem(personagens, subString(3, entrada)));
+                inserirInicio(list, getPersonagem(personagens, subString(3, strlen(entrada), entrada)));
                 break;
             case 1:
-                inserirFim(list, getPersonagem(personagens, subString(3, entrada)));
+                inserirFim(list, getPersonagem(personagens, subString(3, strlen(entrada), entrada)));
                 break;
             case 2:
-                printf("entrei 2\n");                
+                inserir(list, getPersonagem(personagens, subString(getEndOfNumber(entrada) + 1, strlen(entrada), entrada)), toInt(subString(3, getEndOfNumber(entrada), entrada)));                
                 break;                
             case 3:
                 printf("(R) %s\n", removerInicio(list).name);               
@@ -786,7 +828,7 @@ int main(){
                 printf("(R) %s\n", removerFim(list).name);                
                 break;
             case 5:
-                printf("entrei 5\n");               
+                printf("(R) %s\n", remover(list, toInt(subString(3, strlen(entrada), entrada))).name);               
                 break;
             default:
                 printf("entrada invalida");
