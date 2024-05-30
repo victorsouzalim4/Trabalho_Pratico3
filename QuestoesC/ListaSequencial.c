@@ -52,7 +52,7 @@ Lista* construtorLista(){
 }
 
 void imprimePersonagem(Personagem personagens[], int indice){
-       printf("[%s ## ", personagens[indice].id);
+       printf("%s ## ", personagens[indice].id);
        printf("%s ## ", personagens[indice].name);
 
         printf("{");
@@ -104,17 +104,19 @@ void imprimePersonagem(Personagem personagens[], int indice){
        printf("%s ## ", personagens[indice].hairColour);
 
        if(personagens[indice].wizard == true){
-          printf("true]\n");
+          printf("true");
        }
        else{
-          printf("false]\n");
+          printf("false");
        }
        
 }
 
 void mostraLista(Lista *list){
     for(int i = 0; i < list->tamanho; i++){
+        printf("[%d ## ", i);
         imprimePersonagem(list->lista, i);
+        printf("]\n");
     }
 }
 
@@ -777,7 +779,8 @@ int main(){
         separaApelidos(apelidos, atributos);
         ConstroiPersonagem(atributos, apelidos, personagens, i);
         i++;
-    }
+    } 
+
   
     char id[100];
     Lista* list = construtorLista();
@@ -796,8 +799,6 @@ int main(){
         id[strcspn(id, "\r")] = '\0';
     }
 
-    //mostraLista(list);
-
     int numEntradas;
     scanf("%d", &numEntradas);
 
@@ -806,10 +807,6 @@ int main(){
 
         scanf(" %99[^\n]%*c", entrada);
         entrada[strcspn(entrada, "\r")] = '\0';
-
-        //printf("%s\n",subString(3, strlen(entrada), entrada));
-        //printf("%s\n", subString(getEndOfNumber(entrada) + 1, strlen(entrada), entrada));
-        //printf("%d\n", toInt(subString(3, getEndOfNumber(entrada), entrada)));
 
         switch(getOperacao(entrada)){
             case 0:

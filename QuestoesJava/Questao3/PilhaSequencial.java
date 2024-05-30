@@ -1,4 +1,4 @@
-//package QuestoesJava;
+//package Questao3;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -366,126 +366,43 @@ class Personagem {
     }
 }
 
-class Lista{
+class Pilha{
     private int tamanho;
-    private Personagem[] lista;
+    private Personagem[] pilha;
 
-    Lista(){
+    Pilha(){
         this.tamanho = 0;
-        this.lista = new Personagem[404];
+        this.pilha = new Personagem[404];
     }
 
     public void inserirFim(Personagem personagem){
-        if(tamanho >= lista.length || personagem == null){
+        if(tamanho >= pilha.length || personagem == null){
             try{
                 if(personagem == null){
                     throw new Exception("Valor nulo");
                 }else{
-                    throw new Exception("ERRO, lista cheia!!");
+                    throw new Exception("ERRO, pilha cheia!!");
                 }
             }catch(Exception e){
                 e.printStackTrace();
             }
         }else{
-            lista[tamanho] = personagem;
+            pilha[tamanho] = personagem;
             tamanho++;
         }
     }
 
-    public void inserirInicio(Personagem personagem){
-        if(tamanho >= lista.length || personagem == null){
-            try{
-                if(personagem == null){
-                    throw new Exception("Valor nulo");
-                }else{
-                    throw new Exception("ERRO, lista cheia!!");
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }else{
-            for(int i = tamanho; i > 0; i--){
-                lista[i] = lista[i-1];
-            }
-            lista[0] = personagem;
-            tamanho++;
-        }
-    }
-
-    public void inserir(Personagem personagem, int pos){
-        if(tamanho >= lista.length || personagem == null || pos > tamanho || pos < 0){
-            try{
-                if(personagem == null){
-                    throw new Exception("Valor nulo");
-                }else if(tamanho >= lista.length){
-                    throw new Exception("ERRO, lista cheia!!");
-                }else{
-                    throw new Exception("ERRO, posicao invalida");
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }else{
-            for(int i = tamanho; i > pos; i--){
-                lista[i] = lista[i-1];
-            }
-            lista[pos] = personagem;
-            tamanho++;
-        }
-    }
-
-    public Personagem removerInicio(){
-        Personagem personagem = null;
-        if(tamanho == 0 ){
-            try{
-                throw new Exception("ERRO, lista vazia!!");
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }else{
-            personagem = lista[0];
-            for(int i = 0; i < tamanho; i++){
-                lista[i] = lista[i+1];
-            }
-            tamanho--;
-        }
-
-        return personagem;
-    }
 
     public Personagem removerFim(){
         Personagem personagem = null;
         if(tamanho == 0){
             try{
-                throw new Exception("ERRO, lista vazia!!");
+                throw new Exception("ERRO, pilha vazia!!");
             }catch(Exception e){
                 e.printStackTrace();
             }
         }else{
-            personagem = lista[tamanho-1];
-            tamanho--;
-        }
-
-        return personagem;
-    }
-
-    public Personagem remover(int pos){
-        Personagem personagem = null;
-        if(tamanho == 0 || pos >= tamanho || pos < 0){
-            try{
-                if(pos >= tamanho || pos < 0){
-                    throw new Exception("ERRO, posicao invalida");
-                }else{
-                    throw new Exception("ERRO, lista vazia!!");
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }else{
-            personagem = lista[pos];
-            for(int i = pos; i < tamanho; i++){
-                lista[i] = lista[i+1];
-            }
+            personagem = pilha[tamanho-1];
             tamanho--;
         }
 
@@ -493,16 +410,17 @@ class Lista{
     }
 
     public void mostra(){
-        for(int i = 0; i < tamanho; i++){
-            System.out.print("[" + i + " ## ");
-            lista[i].imprime();
+        System.out.println(" [ Top ]");
+        for(int i = tamanho-1; i >= 0; i--){
+            System.out.print("[" + (tamanho-1-i) + " ## ");
+            pilha[i].imprime();
             System.out.println("]" );
         }
-
+        System.out.println(" [ Bottom ]");
     }
 }
 
-public class ListaSequencial {
+public class PilhaSequencial{
 
     public static int getEndOfNumber(String entrada){
         int i;
@@ -528,21 +446,9 @@ public class ListaSequencial {
     public static int getOperacao(String entrada){
         int resp;
         if(entrada.charAt(0) == 'I'){
-            if(entrada.charAt(1) == 'I'){
-                resp = 0;
-            }else if(entrada.charAt(1) == 'F'){
-                resp = 1;
-            }else{
-                resp = 2;
-            }
+            resp = 0;
         }else{
-            if(entrada.charAt(1) == 'I'){
-                resp = 3;
-            }else if(entrada.charAt(1) == 'F'){
-                resp = 4;
-            }else{
-                resp = 5;
-            }
+            resp = 1;
         }
 
         return resp;
@@ -633,14 +539,14 @@ public class ListaSequencial {
         }
 
         Scanner Sc = new Scanner(System.in);
-        Lista list = new Lista();
+        Pilha stack = new Pilha();
 
         String id = Sc.nextLine();
 
         while(isFim(id)){
             Personagem personagemAtual = getPersonagem(id, personagem);
             if(personagemAtual != null){
-                list.inserirFim(personagemAtual);
+                stack.inserirFim(personagemAtual);
             }
             id = Sc.nextLine();
         }
@@ -651,29 +557,17 @@ public class ListaSequencial {
         for(int i = 0; i < numEntradas; i++){
             String entrada = Sc.nextLine();   
 
-        switch (getOperacao(entrada)) {
+            switch (getOperacao(entrada)) {
                 case 0:
-                    list.inserirInicio(getPersonagem(entrada.substring(3), personagem));
+                stack.inserirFim(getPersonagem(entrada.substring(2), personagem));
                     break;
                 case 1:
-                list.inserirFim(getPersonagem(entrada.substring(3), personagem));
-                    break;
-                case 2:
-                list.inserir(getPersonagem(getId(entrada), personagem), Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada))));    
-                    break;
-                case 3:
-                System.out.println("(R) " + list.removerInicio().getName());  
-                    break;
-                case 4:
-                System.out.println("(R) " + list.removerFim().getName());  
-                    break;
-                case 5:
-                System.out.println("(R) " + list.remover(Integer.parseInt(entrada.substring(3, getEndOfNumber(entrada)))).getName());   
+                System.out.println("(R) " + stack.removerFim().getName());  
                     break;
             }
         }
 
-        list.mostra();
+        stack.mostra();
 
         Sc.close();
     }
