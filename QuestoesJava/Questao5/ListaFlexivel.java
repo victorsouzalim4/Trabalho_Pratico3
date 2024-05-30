@@ -396,11 +396,44 @@ class Lista{
         ultimo.prox = tmp;
         ultimo = tmp;
         tmp = null;
+        tamanho++;
+    }
+
+    public void inserirInicio(Personagem personagem){
+        Celula tmp = new Celula(personagem);
+
+        tmp.prox = primeiro.prox;
+        primeiro.prox = tmp;
+        tmp = null;
+        tamanho++;
+    }
+
+    public void inserir(Personagem personagem, int pos){
+        if(pos > tamanho || pos < 0){
+            try{
+                throw new Exception("Posicao invalida");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }else if(pos == 0) inserirInicio(personagem);
+        else if(pos == tamanho) inserirFim(personagem);
+        else{
+            Celula i = primeiro;
+            for(int j = 0; j < pos; i = i.prox, j++);
+
+            Celula tmp = new Celula(personagem);
+            tmp.prox = i.prox;
+            i.prox = tmp;
+
+            tmp = i = null;
+            tamanho++;
+        }
     }
 
     public void mostra(){
         for(Celula i = primeiro.prox; i != null; i = i.prox){
             i.personagem.imprime();
+            System.out.println();
         }
     }
 
@@ -540,7 +573,9 @@ public class ListaFlexivel {
         Lista list = new Lista();
         list.inserirFim(personagem[0]);
         list.inserirFim(personagem[1]);
-        list.inserirFim(personagem[2]);
+        list.inserirInicio(personagem[2]);
+        list.inserirInicio(personagem[3]);
+        list.inserir(personagem[4], 2);
         list.mostra();
 
 
