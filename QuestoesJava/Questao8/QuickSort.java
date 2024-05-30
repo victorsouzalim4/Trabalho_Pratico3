@@ -409,7 +409,10 @@ class Lista{
         Celula tmp = new Celula(personagem);
 
         tmp.prox = primeiro.prox;
+        primeiro.prox.ant = tmp;
+
         primeiro.prox = tmp;
+        tmp.ant = primeiro;
         tmp = null;
         tamanho++;
     }
@@ -429,7 +432,10 @@ class Lista{
 
             Celula tmp = new Celula(personagem);
             tmp.prox = i.prox;
+            i.prox.ant = tmp;
+
             i.prox = tmp;
+            tmp.ant = i;
 
             tmp = i = null;
             tamanho++;
@@ -446,11 +452,10 @@ class Lista{
             }
         }else{
             tmp = ultimo.personagem;
-            Celula i;
-            for(i = primeiro; i.prox != ultimo; i = i.prox);
-    
-            ultimo = i;
-            i.prox = i = null;
+            Celula i = ultimo;
+            ultimo = ultimo.ant;
+            ultimo.prox = i.ant = i = null;
+
             tamanho--;
         }
         return tmp;
@@ -470,7 +475,7 @@ class Lista{
             Celula tmp = primeiro;
             primeiro = primeiro.prox;
 
-            tmp.prox = tmp = null;
+            primeiro.ant = tmp.prox = tmp = null;
             tamanho--;
         }
         return personagem;
@@ -496,8 +501,11 @@ class Lista{
 
             Celula tmp = i.prox;
             personagem = tmp.personagem;
+
             i.prox = tmp.prox;
-            tmp = tmp.prox = i = null;
+            tmp.prox.ant = i;
+
+            tmp = tmp.ant = tmp.prox = i = null;
 
             tamanho--;
         }
