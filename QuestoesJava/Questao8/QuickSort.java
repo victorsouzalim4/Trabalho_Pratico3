@@ -1,4 +1,4 @@
-package Questao6;
+//package Questao8;
 import java.util.Scanner;
 import java.io.EOFException;
 import java.io.File;
@@ -370,23 +370,27 @@ class Personagem {
 class Celula{
     public Personagem personagem;
     public Celula prox;
+    public Celula ant;
+    
 
     public Celula(){
         this.personagem = null;
         this.prox = null;
+        this.ant = null;
     }
 
     public Celula(Personagem personagem){
         this.personagem = personagem;
         this.prox = null;
+        this.ant = null;
     }
 }
 
-class Pilha{
+class Lista{
     private Celula primeiro, ultimo;
     private int tamanho;
 
-    Pilha(){
+    Lista(){
         primeiro = ultimo = new Celula();
         tamanho = 0;
     }
@@ -395,6 +399,7 @@ class Pilha{
 
         Celula tmp = new Celula(personagem);
         ultimo.prox = tmp;
+        tmp.ant = ultimo;
         ultimo = tmp;
         tmp = null;
         tamanho++;
@@ -435,7 +440,7 @@ class Pilha{
         Personagem tmp = null;
         if(tamanho <= 0){
             try{
-                throw new Exception("Pilha vazia");
+                throw new Exception("Lista vazia");
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -455,7 +460,7 @@ class Pilha{
         Personagem personagem = null;
         if(tamanho <= 0){
             try{
-                throw new Exception("Pilha vazia");
+                throw new Exception("Lista vazia");
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -476,7 +481,7 @@ class Pilha{
         if(pos >= tamanho || pos < 0){
             try{
                 if(tamanho == 0){
-                    throw new Exception("Pilha vazia");
+                    throw new Exception("Lista vazia");
                 }else{
                     throw new Exception("Posicao invalida");
                 }   
@@ -500,23 +505,84 @@ class Pilha{
         return personagem;
     }
 
-    public void mostra(){
-        System.out.println("[ Top ]");
+    public void Ordena(){
+        Ordena(0, tamanho-1);
+    }
 
+    private void Ordena(int esq, int dir){
+        int i = esq;
+        int j = dir;
+
+        Personagem pivot = getOnList((esq+dir)/2);
+
+        while(i <= j){
+
+            while(compare(pivot, getOnList(i)) > 0){
+                i++;
+            }
+            while(compare(pivot, getOnList(j)) < 0){
+                j--;
+            }
+
+            if(i <= j){
+                swap(i, j);
+                i++;
+                j--;
+            }
+            
+        }
+
+        if (esq < j) {
+            Ordena( esq, j);
+        }
+        if (dir > i) {
+            Ordena( i, dir);
+        }
+    }
+
+    public void swap(int i, int j){
+        Personagem personagemTmp = getOnList(i);
+
+        Celula tmp = primeiro.prox;
+        for(int k = 0; k < i; tmp = tmp.prox, k++);
+        tmp.personagem = getOnList(j);
+
+        tmp = primeiro.prox;
+        for(int k = 0; k < j; tmp = tmp.prox, k++);
+        tmp.personagem = personagemTmp;
+    }
+
+    public Personagem getOnList(int pos){
+        
+        Celula i = primeiro;
+        for(int j = 0; j <= pos; i = i.prox, j++);
+        Personagem tmp = i.personagem;
+
+        return tmp;
+    }
+
+    public int compare(Personagem a, Personagem b) {
+        int houseComparison = a.getHouse().compareTo(b.getHouse());
+        if (houseComparison != 0) {
+            return houseComparison;
+        } else {
+            return a.getName().compareTo(b.getName());
+        }
+    }
+
+    public void mostra(){
         int j = 0;
         for(Celula i = primeiro.prox; i != null; i = i.prox){
-            System.out.print("[" + j + " ## ");
+            System.out.print("[");
             i.personagem.imprime();
             System.out.println("]");
             j++;
         }
-
-        System.out.println("[ Bottom ]");
     }
 
 }
 
-public class PilhaFlexivel{
+public class QuickSort{
 
     public static int getEndOfNumber(String entrada){
         int i;
@@ -542,9 +608,21 @@ public class PilhaFlexivel{
     public static int getOperacao(String entrada){
         int resp;
         if(entrada.charAt(0) == 'I'){
-            resp = 0;
+            if(entrada.charAt(1) == 'I'){
+                resp = 0;
+            }else if(entrada.charAt(1) == 'F'){
+                resp = 1;
+            }else{
+                resp = 2;
+            }
         }else{
-            resp = 1;
+            if(entrada.charAt(1) == 'I'){
+                resp = 3;
+            }else if(entrada.charAt(1) == 'F'){
+                resp = 4;
+            }else{
+                resp = 5;
+            }
         }
 
         return resp;
@@ -635,34 +713,23 @@ public class PilhaFlexivel{
         }
 
         Scanner Sc = new Scanner(System.in);
-        Pilha stack = new Pilha();
+        Lista list = new Lista();
 
         String id = Sc.nextLine();
 
         while(isFim(id)){
             Personagem personagemAtual = getPersonagem(id, personagem);
             if(personagemAtual != null){
-                stack.inserirInicio(personagemAtual);
+                list.inserirFim(personagemAtual);
             }
             id = Sc.nextLine();
         }
 
-        int numEntradas = Sc.nextInt();
-        Sc.nextLine();
+        //list.mostra();
+        
+        list.Ordena();
+        list.mostra();
 
-        for(int i = 0; i < numEntradas; i++){
-            String entrada = Sc.nextLine();   
-
-            switch (getOperacao(entrada)) {
-                case 0:
-                stack.inserirInicio(getPersonagem(entrada.substring(2), personagem));
-                    break;
-                case 1:
-                System.out.println("(R) " + stack.removerInicio().getName());  
-                    break;
-            }
-        }
-        stack.mostra(); 
         Sc.close();
     }
 }
@@ -670,4 +737,3 @@ public class PilhaFlexivel{
 
 
 //C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv
-///tmp/characters.csv
