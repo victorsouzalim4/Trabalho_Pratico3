@@ -52,15 +52,6 @@ FilaCircular* construtorFilaCircular(){
     return fila;
 }
 
-void inserir(FilaCircular* fila, Personagem personagem){
-    if((fila->ultimo+1) % 6 == fila->primeiro){
-        printf("Fila Cheia\n");
-    }else{
-        fila->filaCircular[fila->ultimo] = personagem;
-        fila->ultimo = (fila->ultimo+1) % 6;
-    }
-}
-
 Personagem remover(FilaCircular *fila){
     Personagem personagem;
     if(fila->primeiro == fila->ultimo){
@@ -71,6 +62,77 @@ Personagem remover(FilaCircular *fila){
     }
 
     return personagem;
+}
+
+void inserir(FilaCircular* fila, Personagem personagem){
+    if((fila->ultimo+1) % 6 == fila->primeiro){
+        //printf("Fila Cheia\n");
+        remover(fila);
+    }
+        fila->filaCircular[fila->ultimo] = personagem;
+        fila->ultimo = (fila->ultimo+1) % 6;
+}
+
+
+void imprime(Personagem personagem){
+    printf("[%s ## ", personagem.id);
+       printf("%s ## ", personagem.name);
+
+        printf("{");
+       for(int i = 0; i < 10; i++){
+            int cont = 0;
+            if(personagem.alternate_names.apelidos[i][0] > 'A' && personagem.alternate_names.apelidos[i][0] < 'z'){
+                cont++;
+            }
+            if(cont != 0){
+                if(i != 0){
+                    printf(", %s", personagem.alternate_names.apelidos[i]);
+                }else{
+                    printf("%s", personagem.alternate_names.apelidos[i]);
+                }
+                 
+            }
+        }
+         printf("} ## ");
+    
+       printf("%s ## ", personagem.house);
+       printf("%s ## ", personagem.ancestry);
+       printf("%s ## ", personagem.species);
+       printf("%s ## ", personagem.patronus);
+        if(personagem.hogwartsStaff == true){
+          printf("true ## ");
+       }
+       else{
+          printf("false ## ");
+       }
+       if(personagem.hogwartsStudent == true){
+          printf("true ## ");
+       }
+       else{
+          printf("false ## ");
+       }
+       printf("%s ## ", personagem.actorName);
+       if(personagem.alive == true){
+          printf("true ## ");
+       }
+       else{
+          printf("false ## ");
+       }
+       printf("%s-", personagem.dateOfBirth.day);
+       printf("%s-", personagem.dateOfBirth.month);
+       printf("%s ## ", personagem.dateOfBirth.year);
+       printf("%d ## ", personagem.yearOfBirth);
+       printf("%s ## ", personagem.eyeColour);
+       printf("%s ## ", personagem.gender);
+       printf("%s ## ", personagem.hairColour);
+
+       if(personagem.wizard == true){
+          printf("true]\n");
+       }
+       else{
+          printf("false]\n");
+       }
+       
 }
 
 void mostra(FilaCircular* fila){
@@ -141,67 +203,6 @@ void imprimePersonagem(Personagem personagens[], int indice){
        }
        else{
           printf("false");
-       }
-       
-}
-
-void imprime(Personagem personagem){
-    printf("[%s ## ", personagem.id);
-       printf("%s ## ", personagem.name);
-
-        printf("{");
-       for(int i = 0; i < 10; i++){
-            int cont = 0;
-            if(personagem.alternate_names.apelidos[i][0] > 'A' && personagem.alternate_names.apelidos[i][0] < 'z'){
-                cont++;
-            }
-            if(cont != 0){
-                if(i != 0){
-                    printf(", %s", personagem.alternate_names.apelidos[i]);
-                }else{
-                    printf("%s", personagem.alternate_names.apelidos[i]);
-                }
-                 
-            }
-        }
-         printf("} ## ");
-    
-       printf("%s ## ", personagem.house);
-       printf("%s ## ", personagem.ancestry);
-       printf("%s ## ", personagem.species);
-       printf("%s ## ", personagem.patronus);
-        if(personagem.hogwartsStaff == true){
-          printf("true ## ");
-       }
-       else{
-          printf("false ## ");
-       }
-       if(personagem.hogwartsStudent == true){
-          printf("true ## ");
-       }
-       else{
-          printf("false ## ");
-       }
-       printf("%s ## ", personagem.actorName);
-       if(personagem.alive == true){
-          printf("true ## ");
-       }
-       else{
-          printf("false ## ");
-       }
-       printf("%s-", personagem.dateOfBirth.day);
-       printf("%s-", personagem.dateOfBirth.month);
-       printf("%s ## ", personagem.dateOfBirth.year);
-       printf("%d ## ", personagem.yearOfBirth);
-       printf("%s ## ", personagem.eyeColour);
-       printf("%s ## ", personagem.gender);
-       printf("%s ## ", personagem.hairColour);
-
-       if(personagem.wizard == true){
-          printf("true]\n");
-       }
-       else{
-          printf("false]\n");
        }
        
 }
@@ -723,23 +724,18 @@ int main(){
     FilaCircular* fila = construtorFilaCircular();
 
     inserir(fila, personagens[5]);
-    mostra(fila);
-    printf("\n");
     inserir(fila, personagens[1]);
-    mostra(fila);
-    printf("\n");
     inserir(fila, personagens[2]);
-    mostra(fila);
-    printf("\n");
     inserir(fila, personagens[3]);
-    mostra(fila);
-    printf("\n");
     inserir(fila, personagens[4]);
     mostra(fila);
-    printf("\n");
+    printf("\n---------------------\n");
     inserir(fila, personagens[0]);
     mostra(fila);
-    printf("\n");
+    printf("\n---------------------\n");
+    inserir(fila, personagens[5]);
+    mostra(fila);
+    printf("\n---------------------\n");
 
 
 
