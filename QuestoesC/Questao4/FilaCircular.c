@@ -66,13 +66,11 @@ Personagem remover(FilaCircular *fila){
 
 void inserir(FilaCircular* fila, Personagem personagem){
     if((fila->ultimo+1) % 6 == fila->primeiro){
-        //printf("Fila Cheia\n");
         remover(fila);
     }
         fila->filaCircular[fila->ultimo] = personagem;
         fila->ultimo = (fila->ultimo+1) % 6;
 }
-
 
 void imprime(Personagem personagem){
     printf("[%s ## ", personagem.id);
@@ -144,6 +142,19 @@ void mostra(FilaCircular* fila){
     }
 }
 
+int getMediaYearOfBirth(FilaCircular* fila){
+    int i = fila->primeiro;
+    int soma = 0;
+
+    while(i != fila->ultimo){
+       soma += fila->filaCircular[i].yearOfBirth;
+       i = (i+1) % 6;
+    }
+
+    soma /= 5;
+
+    return soma;
+}
 
 
 void imprimePersonagem(Personagem personagens[], int indice){
@@ -723,19 +734,24 @@ int main(){
     char id[100];
     FilaCircular* fila = construtorFilaCircular();
 
-    inserir(fila, personagens[5]);
+    inserir(fila, personagens[10]);
     inserir(fila, personagens[1]);
     inserir(fila, personagens[2]);
     inserir(fila, personagens[3]);
     inserir(fila, personagens[4]);
     mostra(fila);
+    printf("%d\n", getMediaYearOfBirth(fila));
     printf("\n---------------------\n");
     inserir(fila, personagens[0]);
     mostra(fila);
+    printf("%d\n", getMediaYearOfBirth(fila));
     printf("\n---------------------\n");
     inserir(fila, personagens[5]);
     mostra(fila);
+    printf("%d\n", getMediaYearOfBirth(fila));
     printf("\n---------------------\n");
+
+  
 
 
 
