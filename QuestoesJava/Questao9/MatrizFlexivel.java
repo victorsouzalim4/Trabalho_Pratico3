@@ -1,4 +1,6 @@
-package Questao9;
+//package Questao9;
+
+import java.util.Scanner;
 
 class Celula {
     public int elemento;
@@ -182,7 +184,7 @@ class Matriz {
                     i = i.inf;
                 }
             }
-            System.out.println("\n");
+            System.out.println();
         }
 
     }
@@ -208,7 +210,7 @@ class Matriz {
                     i = i.inf;
                 }
             }
-            System.out.println("\n");
+            System.out.println();
         }
     }
 
@@ -239,48 +241,71 @@ public class MatrizFlexivel {
                 }
                 System.out.println();
             }
-            System.out.println();
         }
         
     }
+    
+    public static void somaMatrizes(Matriz mat1, Matriz mat2){
+        for (Celula i = mat1.inicio, k = mat2.inicio; i != null && k != null; i = i.inf, k = k.inf) {
+            for (Celula j = i, p = k; j != null && p != null; j = j.dir, p = p.dir) {
+                System.out.print((j.elemento + p.elemento) + " " );
+            }
+            System.out.println();
+        }
+    }
+
     public static void main(String args[]) {
+        Scanner Sc = new Scanner(System.in);
 
-        Matriz mat = new Matriz();
-        Matriz mat1 = new Matriz();
+        int numInstancias = Sc.nextInt();
 
-        mat1.addColuna();
-        mat1.addLinha();
+        for(int i = 0; i < numInstancias; i++){
+            Matriz mat = new Matriz();
+            Matriz mat1 = new Matriz();
+
+            int numLinhas = Sc.nextInt();
+            int numColunas = Sc.nextInt();
+
+            for(int j = 0; j < numLinhas - 2; j++){
+                mat.addLinha();
+            }
+            for(int j = 0; j < numColunas - 2; j++){
+                mat.addColuna();
+            }
+
+            for(int j = 0; j < numLinhas ; j++){
+                for(int k = 0; k < numColunas; k++){
+                    mat.addElemento(Sc.nextInt(), j, k);
+                }
+            }
+
+            numLinhas = Sc.nextInt();
+            numColunas = Sc.nextInt();
+
+            for(int j = 0; j < numLinhas - 2; j++){
+                mat1.addLinha();
+            }
+            for(int j = 0; j < numColunas - 2; j++){
+                mat1.addColuna();
+            }
+
+            for(int j = 0; j < numLinhas ; j++){
+                for(int k = 0; k < numColunas; k++){
+                    mat1.addElemento(Sc.nextInt(), j, k);
+                }
+            }
+            
+            mat.getDiagonalPrincipal();
+            mat.getDiagonalSecundaria();
+            somaMatrizes(mat, mat1);
+            multiplicaMatrizes(mat, mat1);
+            //mat.mostra();
+            //mat1.mostra();
+
+            
+        }
 
 
-        mat.addColuna();
-        mat.addLinha();
- 
-
-        mat1.addElemento(1, 0, 0);
-        mat1.addElemento(2, 0, 1);
-        mat1.addElemento(3, 0, 2);
-        mat1.addElemento(3, 1, 0);
-        mat1.addElemento(2, 1, 1);
-        mat1.addElemento(1, 1, 2);
-        mat1.addElemento(1, 2, 0);
-        mat1.addElemento(2, 2, 1);
-        mat1.addElemento(3, 2, 2);
-
-        mat.addElemento(3, 0, 0);
-        mat.addElemento(2, 0, 1);
-        mat.addElemento(1, 0, 2);
-        mat.addElemento(1, 1, 0);
-        mat.addElemento(2, 1, 1);
-        mat.addElemento(3, 1, 2);
-        mat.addElemento(3, 2, 0);
-        mat.addElemento(2, 2, 1);
-        mat.addElemento(1, 2, 2);
-
-        mat.mostra();
-        mat1.mostra();
-
-
-        multiplicaMatrizes(mat, mat1);
 
     }
 }
