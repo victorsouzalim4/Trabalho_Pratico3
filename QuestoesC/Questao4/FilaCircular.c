@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 
 typedef struct{
     char day[100];
@@ -41,6 +42,7 @@ typedef struct{
 
 typedef struct FilaCircular{
     int primeiro, ultimo;
+    int tamanho;
     Personagem filaCircular[6];
 }FilaCircular;
 
@@ -48,6 +50,7 @@ FilaCircular* construtorFilaCircular(){
     FilaCircular* fila = (FilaCircular*) malloc(sizeof(FilaCircular));
     fila->primeiro = 0;
     fila->ultimo = 0;
+    fila->tamanho = 0;
 
     return fila;
 }
@@ -59,7 +62,10 @@ Personagem remover(FilaCircular *fila){
     }else{
         personagem = fila->filaCircular[fila->primeiro];
         fila->primeiro = (fila->primeiro + 1) % 6; 
+        fila->tamanho--;
     }
+
+
 
     return personagem;
 }
@@ -70,6 +76,8 @@ void inserir(FilaCircular* fila, Personagem personagem){
     }
         fila->filaCircular[fila->ultimo] = personagem;
         fila->ultimo = (fila->ultimo+1) % 6;
+        
+        fila->tamanho++;
 }
 
 void imprime(Personagem personagem){
@@ -136,10 +144,12 @@ void imprime(Personagem personagem){
 void mostra(FilaCircular* fila){
     int i = fila->primeiro;
 
+    printf("[ Head ]\n");
     while(i != fila->ultimo){
        imprime(fila->filaCircular[i]);
        i = (i+1) % 6;
     }
+    printf("[ Tail ]\n");
 }
 
 int getAverageYearOfBirth(FilaCircular* fila){
@@ -151,7 +161,9 @@ int getAverageYearOfBirth(FilaCircular* fila){
        i = (i+1) % 6;
     }
 
-    soma /= 5;
+    soma /= (fila->tamanho);
+
+
 
     return soma;
 }
@@ -636,21 +648,9 @@ int getOperacao(char* entrada){
     int resp;
 
     if(entrada[0] == 'I'){
-        if(entrada[1] == 'I'){
-            resp = 0;
-        }else if(entrada[1] == 'F'){
-            resp = 1;
-        }else{
-            resp = 2;
-        }
+        resp = 0;
     }else{
-        if(entrada[1] == 'I'){
-            resp = 3;
-        }else if(entrada[1] == 'F'){
-            resp = 4;
-        }else{
-            resp = 5;
-        }
+        resp = 1;
     }
 
     return resp;
@@ -734,28 +734,6 @@ int main(){
     char id[100];
     FilaCircular* fila = construtorFilaCircular();
 
-    inserir(fila, personagens[10]);
-    inserir(fila, personagens[1]);
-    inserir(fila, personagens[2]);
-    inserir(fila, personagens[3]);
-    inserir(fila, personagens[4]);
-    mostra(fila);
-    printf("%d\n", getAverageYearOfBirth(fila));
-    printf("\n---------------------\n");
-    inserir(fila, personagens[0]);
-    mostra(fila);
-    printf("%d\n", getAverageYearOfBirth(fila));
-    printf("\n---------------------\n");
-    inserir(fila, personagens[5]);
-    mostra(fila);
-    printf("%d\n", getAverageYearOfBirth(fila));
-    printf("\n---------------------\n");
-
-  
-
-
-
-/*
     scanf("%99[^\n]%*c", id);
     id[strcspn(id, "\r")] = '\0';
     
@@ -763,7 +741,8 @@ int main(){
     while(isFim(id)){
         Personagem personagemAtual = getPersonagem(personagens, id);
         if(personagemAtual.yearOfBirth !=  0){
-            //inserirFim(fila, personagemAtual);
+            inserir(fila, personagemAtual);
+            printf(">> Year Birthday Average: %d\n", getAverageYearOfBirth(fila));
         }
         scanf("%99[^\n]%*c", id);
         id[strcspn(id, "\r")] = '\0';
@@ -780,18 +759,19 @@ int main(){
 
         switch(getOperacao(entrada)){
             case 0:
-                inserirInicio(fila, getPersonagem(personagens, subString(3, strlen(entrada), entrada)));
+                inserir(fila, getPersonagem(personagens, subString(2, strlen(entrada), entrada)));
+                printf(">> Year Birthday Average: %d\n", getAverageYearOfBirth(fila));
                 break;
             case 1:
-                inserirFim(fila, getPersonagem(personagens, subString(3, strlen(entrada), entrada)));
+                printf("(R) %s\n", remover(fila).name);
                 break;
             default:
                 printf("entrada invalida");
         }
-    }*/
+    }
 
-
+    mostra(fila);
 
 }
 
-//entrada[strcspn(entrada, "\r")] = '\0';
+//C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv
