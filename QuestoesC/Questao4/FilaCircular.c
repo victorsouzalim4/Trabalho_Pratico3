@@ -142,7 +142,7 @@ void mostra(FilaCircular* fila){
     }
 }
 
-int getMediaYearOfBirth(FilaCircular* fila){
+int getAverageYearOfBirth(FilaCircular* fila){
     int i = fila->primeiro;
     int soma = 0;
 
@@ -740,15 +740,15 @@ int main(){
     inserir(fila, personagens[3]);
     inserir(fila, personagens[4]);
     mostra(fila);
-    printf("%d\n", getMediaYearOfBirth(fila));
+    printf("%d\n", getAverageYearOfBirth(fila));
     printf("\n---------------------\n");
     inserir(fila, personagens[0]);
     mostra(fila);
-    printf("%d\n", getMediaYearOfBirth(fila));
+    printf("%d\n", getAverageYearOfBirth(fila));
     printf("\n---------------------\n");
     inserir(fila, personagens[5]);
     mostra(fila);
-    printf("%d\n", getMediaYearOfBirth(fila));
+    printf("%d\n", getAverageYearOfBirth(fila));
     printf("\n---------------------\n");
 
   
