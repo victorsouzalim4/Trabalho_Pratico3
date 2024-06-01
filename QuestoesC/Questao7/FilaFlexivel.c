@@ -172,9 +172,11 @@ void imprime(Personagem personagem){
 
 void mostra(Fila* fila){
 
+    printf("[ Head ]\n");
     for(Celula* i = fila->cabeca->prox; i != NULL; i = i->prox){
         imprime(i->personagem);
     }
+    printf("[ Tail ]\n");
 }
 
 
@@ -731,7 +733,7 @@ int getEndOfNumber(char* entrada){
 
 int main(){
 
-    FILE *arq = fopen("C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv", "r");
+    FILE *arq = fopen("/tmp/characters.csv", "r");
     char linha[1000];
     char atributos[18][1000];
     char apelidos[10][150];
@@ -758,27 +760,6 @@ int main(){
     char id[100];
     Fila* fila = construtorFila();
 
-    inserir(fila, personagens[0]);
-    inserir(fila, personagens[1]);
-    inserir(fila, personagens[2]);
-    inserir(fila, personagens[3]);
-    inserir(fila, personagens[4]);
-
-    mostra(fila);
-    printf("%d\n",getAverageYearOfBirth(fila));
-
-    inserir(fila, personagens[5]);
-    mostra(fila);
-    printf("%d\n",getAverageYearOfBirth(fila));
-    
-    inserir(fila, personagens[6]);
-    mostra(fila);
-    printf("%d\n",getAverageYearOfBirth(fila));
-
-
-
-
-    /*
     scanf("%99[^\n]%*c", id);
     id[strcspn(id, "\r")] = '\0';
     
@@ -815,7 +796,7 @@ int main(){
         }
     }
 
-    mostra(fila);*/
+    mostra(fila);
 
 }
 
