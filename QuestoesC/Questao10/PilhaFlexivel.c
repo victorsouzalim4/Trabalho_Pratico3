@@ -109,7 +109,7 @@ void inserir(Pilha* pilha, Personagem personagem){
 }
 
 void imprime(Personagem personagem){
-    printf("[%s ## ", personagem.id);
+    printf("%s ## ", personagem.id);
        printf("%s ## ", personagem.name);
 
         printf("{");
@@ -170,10 +170,17 @@ void imprime(Personagem personagem){
 }
 
 void mostra(Pilha* pilha){
+    int contador = 0;
 
     printf("[ Top ]\n");
-    for(Celula* i = pilha->cabeca->prox; i != NULL; i = i->prox){
-        imprime(i->personagem);
+    for(int j = pilha->tamanho; j > 0; j--){
+        Celula* i = pilha->cabeca;
+        for(int k = 0; k < j && i != NULL; i = i->prox, k++);
+        if(i->personagem.name != ""){
+            printf("[%d ## ", contador++);
+            imprime(i->personagem);
+        }
+
     }
     printf("[ Bottom ]\n");
 }
@@ -744,22 +751,7 @@ int main(){
     char id[100];
     Pilha* pilha = construtorPilha();
 
-    inserir(pilha, personagens[0]);
-    inserir(pilha, personagens[1]);
-    mostra(pilha);
-
-    remover(pilha);
-    mostra(pilha);
-
-    remover(pilha);
-    mostra(pilha);
-
-    remover(pilha);
-    mostra(pilha);
-
-
-
-    /*
+    
     scanf("%99[^\n]%*c", id);
     id[strcspn(id, "\r")] = '\0';
     
@@ -794,7 +786,7 @@ int main(){
         }
     }
 
-    mostra(pilha);*/
+    mostra(pilha);
 
 }
 
