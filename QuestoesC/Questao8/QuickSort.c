@@ -231,6 +231,41 @@ Personagem removerInicio(Lista* lista){
         return personagem;
 }
 
+Personagem remover(Lista* lista, int pos) {
+    Personagem personagem;
+    
+    if(pos >= lista->tamanho || pos < 0) {
+        if(lista->tamanho == 0) {
+            printf("Lista vazia");
+        } else {
+            printf("Posicao invalida");
+        }
+    } else if(pos == 0) {
+        return removerInicio(lista);
+    } else if(pos == lista->tamanho - 1) {
+        return removerFim(lista);
+    } else {
+        Celula* i = lista->primeiro;
+        for(int j = 0; j < pos; j++) {
+            i = i->prox;
+        }
+
+        Celula* tmp = i->prox;
+        personagem = tmp->personagem;
+
+        i->prox = tmp->prox;
+        tmp->prox->ant = i;
+
+        // Libera apenas tmp, i não deve ser liberado pois ainda é necessário
+        free(tmp);
+
+        lista->tamanho--;
+    }
+
+    return personagem;
+}
+
+
 void mostra(Lista* lista){
 
     for(Celula* i = lista->primeiro->prox; i != NULL; i = i->prox){
@@ -813,9 +848,12 @@ int main(){
     inserirInicio(lista, personagens[2]);
     inserirInicio(lista, personagens[3]);
     inserir(lista, personagens[4], 2);
-    removerInicio(lista);
+    //mostra(lista);
+    imprime(remover(lista, 2));
+    //printf("\n\n");
+    //mostra(lista);
 
-    mostra(lista);
+
 
     
     /*scanf("%99[^\n]%*c", id);
