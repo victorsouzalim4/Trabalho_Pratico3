@@ -101,12 +101,12 @@ Personagem remover(Fila* fila){
 
 void inserir(Fila* fila, Personagem personagem){
     if(fila->tamanho >= 5){
-        printf("fila cheia\n");
-    }else{
+        remover(fila);
+    }
         fila->ultimo->prox = construtorCelula(personagem);
         fila->ultimo = fila->ultimo->prox;
         fila->tamanho++;
-    }
+    
 }
 
 void imprime(Personagem personagem){
@@ -771,7 +771,13 @@ int main(){
 
     mostra(fila);
     printf("\n\n");
-    remover(fila);
+
+    inserir(fila, personagens[5]);
+    mostra(fila);
+    printf("\n\n");
+    inserir(fila, personagens[6]);
+    mostra(fila);
+    printf("\n\n");
 
 
 
