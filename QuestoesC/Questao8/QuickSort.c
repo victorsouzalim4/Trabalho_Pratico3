@@ -45,7 +45,7 @@ typedef struct{
 typedef struct Celula{
     Personagem personagem;
     struct Celula* prox;
-    struct Cleula* ant;
+    struct Celula* ant;
 
 }Celula;
 
@@ -89,6 +89,19 @@ void inserirFim(Lista* lista, Personagem personagem){
         lista->ultimo->prox = tmp;
         tmp->ant = lista->ultimo;
         lista->ultimo = tmp;
+        tmp = NULL;
+        lista->tamanho++;
+}
+
+void inserirInicio(Lista* lista, Personagem personagem){
+        
+        Celula* tmp = construtorCelula(personagem);
+
+        tmp->prox = lista->primeiro->prox;
+        lista->primeiro->prox->ant = tmp;
+
+        lista->primeiro->prox = tmp;
+        tmp->ant = lista->primeiro;
         tmp = NULL;
         lista->tamanho++;
 }
@@ -733,6 +746,8 @@ int main(){
 
     inserirFim(lista, personagens[0]);
     inserirFim(lista, personagens[1]);
+    inserirInicio(lista, personagens[2]);
+    inserirInicio(lista, personagens[3]);
     mostra(lista);
 
     
