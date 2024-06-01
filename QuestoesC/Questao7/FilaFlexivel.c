@@ -80,6 +80,25 @@ Fila* construtorFila(){
     return fila;
 }
 
+Personagem remover(Fila* fila){
+    Personagem personagem;
+    if(fila->tamanho <= 0){
+        printf("Fila Vazia");
+    }else{
+        Celula* tmp = fila->cabeca;
+        fila->cabeca = fila->cabeca->prox;
+
+        tmp->prox = NULL;
+        tmp = NULL;
+        free(tmp);
+
+        personagem = fila->cabeca->personagem;
+        fila->tamanho--;
+    }
+
+    return personagem;
+}
+
 void inserir(Fila* fila, Personagem personagem){
     if(fila->tamanho >= 5){
         printf("fila cheia\n");
@@ -751,6 +770,10 @@ int main(){
     inserir(fila, personagens[4]);
 
     mostra(fila);
+    printf("\n\n");
+    remover(fila);
+
+
 
 
     /*
