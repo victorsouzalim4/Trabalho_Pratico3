@@ -45,12 +45,14 @@ typedef struct{
 typedef struct Celula{
     Personagem personagem;
     struct Celula* prox;
+    struct Cleula* ant;
 
 }Celula;
 
-Celula* construtorCelulaCabeca(){
+Celula* construtorCelulaPrimeira(){
     Celula* tmp = (Celula*) malloc(sizeof(Celula));
     tmp->prox = NULL;
+    tmp->ant = NULL;
 
     return tmp;
 }
@@ -59,53 +61,36 @@ Celula* construtorCelula(Personagem personagem){
     Celula* tmp = (Celula*) malloc(sizeof(Celula));
     tmp->personagem = personagem;
     tmp->prox = NULL;
+    tmp->ant = NULL;
 
     return tmp;
 }
 
-typedef struct Pilha{
-    Celula* cabeca;
+typedef struct Lista{
+    Celula* primeiro;
     Celula* ultimo;
     int tamanho;
 
-}Pilha;
+}Lista;
 
-Pilha* construtorPilha(){
-    Pilha* pilha = (Pilha*) malloc(sizeof(Pilha));
+Lista* construtorLista(){
+    Lista* lista = (Lista*) malloc(sizeof(Lista));
 
-    pilha->cabeca = construtorCelulaCabeca();
-    pilha->ultimo = pilha->cabeca;
-    pilha->tamanho = 0;
+    lista->primeiro = construtorCelulaPrimeira();
+    lista->ultimo = lista->primeiro;
+    lista->tamanho = 0;
 
-    return pilha;
+    return lista;
 }
 
-Personagem remover(Pilha* pilha){
-    Personagem personagem;
-    if(pilha->tamanho <= 0){
-        printf("Pilha Vazia\n");
-    }else{
-        Celula* tmp;
-        for(tmp = pilha->cabeca; tmp->prox != pilha->ultimo; tmp = tmp->prox);
+void inserirFim(Lista* lista, Personagem personagem){
 
-        personagem = pilha->ultimo->personagem;
-        pilha->ultimo = tmp;
-
-        tmp->prox = NULL;
+        Celula* tmp = construtorCelula(personagem);
+        lista->ultimo->prox = tmp;
+        tmp->ant = lista->ultimo;
+        lista->ultimo = tmp;
         tmp = NULL;
-        free(tmp);
-
-        pilha->tamanho--;
-    }
-
-    return personagem;
-}
-
-void inserir(Pilha* pilha, Personagem personagem){
-
-        pilha->ultimo->prox = construtorCelula(personagem);
-        pilha->ultimo = pilha->ultimo->prox;
-        pilha->tamanho++;
+        lista->tamanho++;
 }
 
 void imprime(Personagem personagem){
@@ -169,20 +154,12 @@ void imprime(Personagem personagem){
        
 }
 
-void mostra(Pilha* pilha){
-    int contador = 0;
+void mostra(Lista* lista){
 
-    printf("[ Top ]\n");
-    for(int j = pilha->tamanho; j > 0; j--){
-        Celula* i = pilha->cabeca;
-        for(int k = 0; k < j && i != NULL; i = i->prox, k++);
-        if(i->personagem.name != ""){
-            printf("[%d ## ", contador++);
-            imprime(i->personagem);
-        }
-
+    for(Celula* i = lista->primeiro->prox; i != NULL; i = i->prox){
+        imprime(i->personagem);
     }
-    printf("[ Bottom ]\n");
+
 }
 
 
@@ -752,44 +729,29 @@ int main(){
 
   
     char id[100];
-    Pilha* pilha = construtorPilha();
+    Lista* lista = construtorLista();
+
+    inserirFim(lista, personagens[0]);
+    inserirFim(lista, personagens[1]);
+    mostra(lista);
 
     
-    scanf("%99[^\n]%*c", id);
+    /*scanf("%99[^\n]%*c", id);
     id[strcspn(id, "\r")] = '\0';
     
 
     while(isFim(id)){
         Personagem personagemAtual = getPersonagem(personagens, id);
         if(personagemAtual.yearOfBirth !=  0){
-            inserir(pilha, personagemAtual);
+            inserirFim(lista, personagemAtual);
         }
         scanf("%99[^\n]%*c", id);
         id[strcspn(id, "\r")] = '\0';
-    }
+    }*/
 
-    int numEntradas;
-    scanf("%d", &numEntradas);
 
-    for(int i = 0; i < numEntradas; i++){
-        char entrada[100];
 
-        scanf(" %99[^\n]%*c", entrada);
-        entrada[strcspn(entrada, "\r")] = '\0';
 
-        switch(getOperacao(entrada)){
-            case 0:
-                inserir(pilha, getPersonagem(personagens, subString(2, strlen(entrada), entrada)));
-                break;
-            case 1:
-                printf("(R) %s\n", remover(pilha).name);
-                break;
-            default:
-                printf("entrada invalida");
-        }
-    }
-
-    mostra(pilha);
 
 }
 
