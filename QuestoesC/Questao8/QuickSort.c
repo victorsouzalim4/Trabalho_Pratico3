@@ -192,6 +192,25 @@ void imprime(Personagem personagem){
        
 }
 
+Personagem removerFim(Lista* lista){
+    Personagem tmp;
+        if(lista->tamanho <= 0){
+            printf("Lista vazia");
+        }else{
+            tmp = lista->ultimo->personagem;
+            Celula* i = lista->ultimo;
+            lista->ultimo = lista->ultimo->ant;
+
+            lista->ultimo->prox = NULL;
+            i->ant = NULL;
+            i = NULL;
+            free(i);
+
+            lista->tamanho--;
+        }
+        return tmp;
+}
+
 void mostra(Lista* lista){
 
     for(Celula* i = lista->primeiro->prox; i != NULL; i = i->prox){
@@ -773,8 +792,11 @@ int main(){
     inserirFim(lista, personagens[1]);
     inserirInicio(lista, personagens[2]);
     inserirInicio(lista, personagens[3]);
-    mostra(lista);
     inserir(lista, personagens[4], 2);
+    imprime(removerFim(lista));
+    imprime(removerFim(lista));
+    printf("\n\n");
+
     mostra(lista);
 
     
