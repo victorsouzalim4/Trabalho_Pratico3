@@ -40,44 +40,54 @@ typedef struct{
 
 
 
-typedef struct FilaCircular{
-    int primeiro, ultimo;
-    int tamanho;
-    Personagem filaCircular[6];
-}FilaCircular;
 
-FilaCircular* construtorFilaCircular(){
-    FilaCircular* fila = (FilaCircular*) malloc(sizeof(FilaCircular));
-    fila->primeiro = 0;
-    fila->ultimo = 0;
+
+typedef struct Celula{
+    Personagem personagem;
+    struct Celula* prox;
+
+}Celula;
+
+Celula* construtorCelulaCabeca(){
+    Celula* tmp = (Celula*) malloc(sizeof(Celula));
+    tmp->prox = NULL;
+
+    return tmp;
+}
+
+Celula* construtorCelula(Personagem personagem){
+    Celula* tmp = (Celula*) malloc(sizeof(Celula));
+    tmp->personagem = personagem;
+    tmp->prox = NULL;
+
+    return tmp;
+}
+
+typedef struct Fila{
+    Celula* cabeca;
+    Celula* ultimo;
+    int tamanho;
+
+}Fila;
+
+Fila* construtorFila(){
+    Fila* fila = (Fila*) malloc(sizeof(Fila));
+
+    fila->cabeca = construtorCelulaCabeca();
+    fila->ultimo = fila->cabeca;
     fila->tamanho = 0;
 
     return fila;
 }
 
-Personagem remover(FilaCircular *fila){
-    Personagem personagem;
-    if(fila->primeiro == fila->ultimo){
-        printf("Fila vazia\n");
+void inserir(Fila* fila, Personagem personagem){
+    if(fila->tamanho >= 5){
+        printf("fila cheia\n");
     }else{
-        personagem = fila->filaCircular[fila->primeiro];
-        fila->primeiro = (fila->primeiro + 1) % 6; 
-        fila->tamanho--;
-    }
-
-
-
-    return personagem;
-}
-
-void inserir(FilaCircular* fila, Personagem personagem){
-    if((fila->ultimo+1) % 6 == fila->primeiro){
-        remover(fila);
-    }
-        fila->filaCircular[fila->ultimo] = personagem;
-        fila->ultimo = (fila->ultimo+1) % 6;
-        
+        fila->ultimo->prox = construtorCelula(personagem);
+        fila->ultimo = fila->ultimo->prox;
         fila->tamanho++;
+    }
 }
 
 void imprime(Personagem personagem){
@@ -141,23 +151,23 @@ void imprime(Personagem personagem){
        
 }
 
-void mostra(FilaCircular* fila){
-    int i = fila->primeiro;
+void mostra(Fila* fila){
 
-    printf("[ Head ]\n");
-    while(i != fila->ultimo){
-       imprime(fila->filaCircular[i]);
-       i = (i+1) % 6;
+    for(Celula* i = fila->cabeca->prox; i != NULL; i = i->prox){
+        imprime(i->personagem);
     }
-    printf("[ Tail ]\n");
 }
 
-int getAverageYearOfBirth(FilaCircular* fila){
+
+
+
+
+/*int getAverageYearOfBirth(Fila* fila){
     int i = fila->primeiro;
     int soma = 0;
 
     while(i != fila->ultimo){
-       soma += fila->filaCircular[i].yearOfBirth;
+       soma += fila->fila[i].yearOfBirth;
        i = (i+1) % 6;
     }
 
@@ -166,7 +176,7 @@ int getAverageYearOfBirth(FilaCircular* fila){
 
 
     return soma;
-}
+}*/
 
 
 void imprimePersonagem(Personagem personagens[], int indice){
@@ -707,7 +717,7 @@ int getEndOfNumber(char* entrada){
 
 int main(){
 
-    FILE *arq = fopen("/tmp/characters.csv", "r");
+    FILE *arq = fopen("C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv", "r");
     char linha[1000];
     char atributos[18][1000];
     char apelidos[10][150];
@@ -732,8 +742,18 @@ int main(){
 
   
     char id[100];
-    FilaCircular* fila = construtorFilaCircular();
+    Fila* fila = construtorFila();
 
+    inserir(fila, personagens[0]);
+    inserir(fila, personagens[1]);
+    inserir(fila, personagens[2]);
+    inserir(fila, personagens[3]);
+    inserir(fila, personagens[4]);
+
+    mostra(fila);
+
+
+    /*
     scanf("%99[^\n]%*c", id);
     id[strcspn(id, "\r")] = '\0';
     
@@ -770,7 +790,7 @@ int main(){
         }
     }
 
-    mostra(fila);
+    mostra(fila);*/
 
 }
 
