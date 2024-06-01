@@ -132,7 +132,7 @@ void inserir(Lista* lista, Personagem personagem, int pos){
 }
 
 void imprime(Personagem personagem){
-    printf("%s ## ", personagem.id);
+    printf("[%s ## ", personagem.id);
        printf("%s ## ", personagem.name);
 
         printf("{");
@@ -264,7 +264,6 @@ Personagem remover(Lista* lista, int pos) {
 
     return personagem;
 }
-
 
 void mostra(Lista* lista){
 
@@ -814,6 +813,68 @@ int getEndOfNumber(char* entrada){
     return i;
 }
 
+int compare(Personagem a, Personagem b){
+
+    int Comparison = strcmp(a.house, b.house);
+    if(Comparison != 0) {
+        return Comparison;
+    }else {
+        return strcmp(a.name, b.name);
+    }
+    return Comparison;
+} 
+
+Personagem getOnList(Lista* lista, int pos){
+        Celula* i = lista->primeiro;
+        for(int j = 0; j <= pos; i = i->prox, j++);
+        Personagem tmp = i->personagem;
+
+        return tmp;
+}
+
+void swap(Lista* lista, int i, int j){
+    Personagem personagemTmp = getOnList(lista, i);
+
+        Celula* tmp = lista->primeiro->prox;
+        for(int k = 0; k < i; tmp = tmp->prox, k++);
+        tmp->personagem = getOnList(lista, j);
+
+        tmp = lista->primeiro->prox;
+        for(int k = 0; k < j; tmp = tmp->prox, k++);
+        tmp->personagem = personagemTmp;
+}
+
+void ordena(Lista* lista, int esq, int dir){
+    int i = esq;
+        int j = dir;
+
+        Personagem pivot = getOnList(lista, (esq+dir)/2);
+
+        while(i <= j){
+
+            while(compare(pivot, getOnList(lista, i)) > 0){
+                i++;
+            }
+            while(compare(pivot, getOnList(lista, j)) < 0){
+                j--;
+            }
+
+            if(i <= j){
+                swap(lista, i, j);
+                i++;
+                j--;
+            }
+            
+        }
+
+        if (esq < j) {
+            ordena(lista, esq, j);
+        }
+        if (dir > i) {
+            ordena(lista, i, dir);
+        }
+}
+
 int main(){
 
     FILE *arq = fopen("C:/Users/Victor/Documents/FACULDADE/2 semestre/Aeds 2/TP_3/Trabalho_Pratico3/characters.csv", "r");
@@ -843,20 +904,8 @@ int main(){
     char id[100];
     Lista* lista = construtorLista();
 
-    inserirFim(lista, personagens[0]);
-    inserirFim(lista, personagens[1]);
-    inserirInicio(lista, personagens[2]);
-    inserirInicio(lista, personagens[3]);
-    inserir(lista, personagens[4], 2);
-    //mostra(lista);
-    imprime(remover(lista, 2));
-    //printf("\n\n");
-    //mostra(lista);
 
-
-
-    
-    /*scanf("%99[^\n]%*c", id);
+    scanf("%99[^\n]%*c", id);
     id[strcspn(id, "\r")] = '\0';
     
 
@@ -867,11 +916,10 @@ int main(){
         }
         scanf("%99[^\n]%*c", id);
         id[strcspn(id, "\r")] = '\0';
-    }*/
+    }
 
-
-
-
+    ordena(lista, 0, lista->tamanho - 1);
+    mostra(lista);
 
 }
 
