@@ -106,6 +106,31 @@ void inserirInicio(Lista* lista, Personagem personagem){
         lista->tamanho++;
 }
 
+void inserir(Lista* lista, Personagem personagem, int pos){
+        if(pos > lista->tamanho || pos < 0){
+            printf("Posicao invalida\n");
+        }else if(pos == 0) inserirInicio(lista, personagem);
+        else if(pos == lista->tamanho) inserirFim(lista, personagem);
+        else{
+            Celula* i = lista->primeiro;
+            for(int j = 0; j < pos; i = i->prox, j++);
+
+            Celula* tmp = construtorCelula(personagem);
+            tmp->prox = i->prox;
+            i->prox->ant = tmp;
+
+            i->prox = tmp;
+            tmp->ant = i;
+
+            tmp = NULL;
+            i = NULL;
+            free(tmp);
+            free(i);
+
+            lista->tamanho++;
+        }
+}
+
 void imprime(Personagem personagem){
     printf("%s ## ", personagem.id);
        printf("%s ## ", personagem.name);
@@ -748,6 +773,8 @@ int main(){
     inserirFim(lista, personagens[1]);
     inserirInicio(lista, personagens[2]);
     inserirInicio(lista, personagens[3]);
+    mostra(lista);
+    inserir(lista, personagens[4], 2);
     mostra(lista);
 
     
