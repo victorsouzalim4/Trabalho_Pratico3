@@ -211,6 +211,26 @@ Personagem removerFim(Lista* lista){
         return tmp;
 }
 
+Personagem removerInicio(Lista* lista){
+        Personagem personagem;
+        if(lista->tamanho <= 0){
+                printf("Lista vazia");
+        }else{
+            personagem = lista->primeiro->prox->personagem;
+
+            Celula* tmp = lista->primeiro;
+            lista->primeiro = lista->primeiro->prox;
+
+            lista->primeiro->ant = NULL;
+            tmp->prox = NULL;
+            tmp = NULL;
+            free(tmp);
+
+            lista->tamanho--;
+        }
+        return personagem;
+}
+
 void mostra(Lista* lista){
 
     for(Celula* i = lista->primeiro->prox; i != NULL; i = i->prox){
@@ -793,9 +813,7 @@ int main(){
     inserirInicio(lista, personagens[2]);
     inserirInicio(lista, personagens[3]);
     inserir(lista, personagens[4], 2);
-    imprime(removerFim(lista));
-    imprime(removerFim(lista));
-    printf("\n\n");
+    removerInicio(lista);
 
     mostra(lista);
 
