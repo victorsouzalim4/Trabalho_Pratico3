@@ -180,22 +180,17 @@ void mostra(Fila* fila){
 
 
 
+int getAverageYearOfBirth(Fila* fila){
 
-/*int getAverageYearOfBirth(Fila* fila){
-    int i = fila->primeiro;
     int soma = 0;
 
-    while(i != fila->ultimo){
-       soma += fila->fila[i].yearOfBirth;
-       i = (i+1) % 6;
+    for(Celula* i = fila->cabeca->prox; i != NULL; i = i->prox){
+        soma += i->personagem.yearOfBirth;
     }
-
     soma /= (fila->tamanho);
 
-
-
     return soma;
-}*/
+}
 
 
 void imprimePersonagem(Personagem personagens[], int indice){
@@ -770,14 +765,15 @@ int main(){
     inserir(fila, personagens[4]);
 
     mostra(fila);
-    printf("\n\n");
+    printf("%d\n",getAverageYearOfBirth(fila));
 
     inserir(fila, personagens[5]);
     mostra(fila);
-    printf("\n\n");
+    printf("%d\n",getAverageYearOfBirth(fila));
+    
     inserir(fila, personagens[6]);
     mostra(fila);
-    printf("\n\n");
+    printf("%d\n",getAverageYearOfBirth(fila));
 
 
 
